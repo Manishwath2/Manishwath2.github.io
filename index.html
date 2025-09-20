@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#6366f1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>AI Companion</title>
+    
+    <!-- Preload critical fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+</head>
+<body>
+    <!-- App Container -->
+    <div id="app" class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <button class="menu-btn" id="menuBtn">
+                    <span class="menu-icon"></span>
+                </button>
+                <h1 class="app-title">AI Companion</h1>
+                <button class="settings-btn" id="settingsBtn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"></path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Character Selection Screen -->
+        <div id="characterSelection" class="screen character-selection active">
+            <div class="screen-content">
+                <div class="welcome-section">
+                    <h2 class="welcome-title">Choose Your Companion</h2>
+                    <p class="welcome-subtitle">Select a character to start your conversation</p>
+                </div>
+                
+                <div class="character-grid">
+                    <div class="character-card" data-character="girlfriend">
+                        <div class="character-avatar">
+                            <div class="avatar-circle girlfriend">💕</div>
+                        </div>
+                        <h3 class="character-name">Girlfriend</h3>
+                        <p class="character-description">Loving, caring, and supportive companion</p>
+                        <button class="select-character-btn">Select</button>
+                    </div>
+                    
+                    <div class="character-card" data-character="teacher">
+                        <div class="character-avatar">
+                            <div class="avatar-circle teacher">📚</div>
+                        </div>
+                        <h3 class="character-name">Teacher</h3>
+                        <p class="character-description">Knowledgeable, patient, and helpful mentor</p>
+                        <button class="select-character-btn">Select</button>
+                    </div>
+                    
+                    <div class="character-card" data-character="partner">
+                        <div class="character-avatar">
+                            <div class="avatar-circle partner">🤝</div>
+                        </div>
+                        <h3 class="character-name">Shared Partner</h3>
+                        <p class="character-description">Collaborative, understanding, and balanced</p>
+                        <button class="select-character-btn">Select</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Screen -->
+        <div id="chatScreen" class="screen chat-screen">
+            <!-- Character Info Bar -->
+            <div class="character-info-bar">
+                <div class="character-info">
+                    <div class="character-avatar-small">
+                        <div class="avatar-circle-small" id="currentCharacterAvatar">💕</div>
+                    </div>
+                    <div class="character-details">
+                        <span class="character-name-small" id="currentCharacterName">Girlfriend</span>
+                        <span class="character-status">Online</span>
+                    </div>
+                </div>
+                <button class="customize-btn" id="customizeBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 15c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3z"></path>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1 1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Chat Messages -->
+            <div class="chat-messages" id="chatMessages">
+                <div class="welcome-message">
+                    <p>Start a conversation with your AI companion!</p>
+                </div>
+            </div>
+
+            <!-- Chat Input -->
+            <div class="chat-input-container">
+                <div class="chat-input-wrapper">
+                    <input type="text" class="chat-input" id="chatInput" placeholder="Type your message...">
+                    <button class="send-btn" id="sendBtn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22,2 15,22 11,13 2,9"></polygon>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customization Panel -->
+        <div id="customizationPanel" class="screen customization-panel">
+            <div class="panel-header">
+                <h3>Customize Character</h3>
+                <button class="close-panel-btn" id="closePanelBtn">×</button>
+            </div>
+            
+            <div class="customization-content">
+                <div class="customization-section">
+                    <h4>Personality Traits</h4>
+                    <div class="trait-sliders">
+                        <div class="trait-slider">
+                            <label>Friendliness</label>
+                            <input type="range" min="0" max="100" value="75" class="slider" id="friendliness">
+                            <span class="slider-value">75%</span>
+                        </div>
+                        <div class="trait-slider">
+                            <label>Humor</label>
+                            <input type="range" min="0" max="100" value="60" class="slider" id="humor">
+                            <span class="slider-value">60%</span>
+                        </div>
+                        <div class="trait-slider">
+                            <label>Intelligence</label>
+                            <input type="range" min="0" max="100" value="85" class="slider" id="intelligence">
+                            <span class="slider-value">85%</span>
+                        </div>
+                        <div class="trait-slider">
+                            <label>Empathy</label>
+                            <input type="range" min="0" max="100" value="90" class="slider" id="empathy">
+                            <span class="slider-value">90%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="customization-section">
+                    <h4>Communication Style</h4>
+                    <div class="style-options">
+                        <label class="style-option">
+                            <input type="radio" name="style" value="casual" checked>
+                            <span>Casual & Friendly</span>
+                        </label>
+                        <label class="style-option">
+                            <input type="radio" name="style" value="formal">
+                            <span>Professional & Formal</span>
+                        </label>
+                        <label class="style-option">
+                            <input type="radio" name="style" value="playful">
+                            <span>Playful & Fun</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <button class="save-customization-btn" id="saveCustomizationBtn">Save Changes</button>
+            </div>
+        </div>
+
+        <!-- Side Menu -->
+        <div id="sideMenu" class="side-menu">
+            <div class="menu-content">
+                <div class="menu-header">
+                    <h3>Menu</h3>
+                    <button class="close-menu-btn" id="closeMenuBtn">×</button>
+                </div>
+                
+                <nav class="menu-nav">
+                    <a href="#" class="menu-item" id="changeCharacterBtn">
+                        <span class="menu-icon">👥</span>
+                        Change Character
+                    </a>
+                    <a href="#" class="menu-item" id="clearChatBtn">
+                        <span class="menu-icon">🗑️</span>
+                        Clear Chat
+                    </a>
+                    <a href="#" class="menu-item" id="aboutBtn">
+                        <span class="menu-icon">ℹ️</span>
+                        About
+                    </a>
+                </nav>
+            </div>
+            <div class="menu-overlay" id="menuOverlay"></div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
