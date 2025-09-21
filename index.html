@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chat & MatchMaker</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation -->
+        <nav class="sidebar">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <span>AI Matrix</span>
+            </div>
+            
+            <div class="nav-items">
+                <div class="nav-item active" data-section="chat">
+                    <i class="fas fa-comments"></i>
+                    <span>AI Chat</span>
+                </div>
+                <div class="nav-item" data-section="matchmaker">
+                    <i class="fas fa-heart"></i>
+                    <span>MatchMaker</span>
+                </div>
+                <div class="nav-item" data-section="private-chat">
+                    <i class="fas fa-lock"></i>
+                    <span>Private Chat</span>
+                </div>
+                <div class="nav-item" data-section="profile">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </div>
+            </div>
+            
+            <div class="sidebar-footer">
+                <div class="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- AI Chat Section -->
+            <section id="chat" class="content-section active">
+                <div class="section-header">
+                    <h1>AI Assistant</h1>
+                    <p>Your intelligent conversation partner</p>
+                </div>
+                
+                <div class="chat-container">
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message ai-message">
+                            <div class="message-avatar">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="message-content">
+                                <div class="message-text">Hello! I'm your AI assistant. How can I help you today?</div>
+                                <div class="message-time">Just now</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input-container">
+                        <div class="chat-input-wrapper">
+                            <input type="text" id="chatInput" placeholder="Type your message..." maxlength="500">
+                            <button id="sendButton" class="send-button">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        <div class="input-suggestions">
+                            <button class="suggestion-btn">Tell me a joke</button>
+                            <button class="suggestion-btn">Help me solve a problem</button>
+                            <button class="suggestion-btn">What's the weather like?</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MatchMaker Section -->
+            <section id="matchmaker" class="content-section">
+                <div class="section-header">
+                    <h1>AI MatchMaker</h1>
+                    <p>Find your perfect conversation partner</p>
+                </div>
+                
+                <div class="matchmaker-container">
+                    <div class="matching-card">
+                        <div class="card-header">
+                            <h3>Find Your Match</h3>
+                            <p>Answer a few questions to find compatible chat partners</p>
+                        </div>
+                        
+                        <div class="preference-form">
+                            <div class="form-group">
+                                <label>Preferred conversation style:</label>
+                                <select id="conversationStyle">
+                                    <option value="casual">Casual & Fun</option>
+                                    <option value="intellectual">Deep & Intellectual</option>
+                                    <option value="creative">Creative & Artistic</option>
+                                    <option value="technical">Technical & Professional</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Interests:</label>
+                                <div class="interests-grid">
+                                    <button class="interest-tag" data-interest="technology">Technology</button>
+                                    <button class="interest-tag" data-interest="art">Art</button>
+                                    <button class="interest-tag" data-interest="music">Music</button>
+                                    <button class="interest-tag" data-interest="sports">Sports</button>
+                                    <button class="interest-tag" data-interest="books">Books</button>
+                                    <button class="interest-tag" data-interest="travel">Travel</button>
+                                    <button class="interest-tag" data-interest="gaming">Gaming</button>
+                                    <button class="interest-tag" data-interest="cooking">Cooking</button>
+                                </div>
+                            </div>
+                            
+                            <button id="findMatchBtn" class="find-match-btn">
+                                <i class="fas fa-search"></i>
+                                Find My Match
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="matches-container" id="matchesContainer">
+                        <!-- Matches will be populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Private Chat Section -->
+            <section id="private-chat" class="content-section">
+                <div class="section-header">
+                    <h1>Private Conversations</h1>
+                    <p>Secure and encrypted chat rooms</p>
+                </div>
+                
+                <div class="private-chat-container">
+                    <div class="chat-rooms-sidebar">
+                        <div class="rooms-header">
+                            <h3>Chat Rooms</h3>
+                            <button id="createRoomBtn" class="create-room-btn">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="rooms-list" id="roomsList">
+                            <!-- Rooms will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="private-chat-main">
+                        <div class="chat-room-header">
+                            <div class="room-info">
+                                <h3 id="currentRoomName">Select a room</h3>
+                                <div class="room-status">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <span>End-to-end encrypted</span>
+                                </div>
+                            </div>
+                            
+                            <div class="room-actions">
+                                <button class="action-btn" id="inviteBtn">
+                                    <i class="fas fa-user-plus"></i>
+                                </button>
+                                <button class="action-btn" id="settingsBtn">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="private-messages" id="privateMessages">
+                            <div class="welcome-message">
+                                <i class="fas fa-lock"></i>
+                                <h3>Welcome to Private Chat</h3>
+                                <p>Your conversations are encrypted and secure. Create or join a room to start chatting.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="private-input-container">
+                            <div class="private-input-wrapper">
+                                <input type="text" id="privateInput" placeholder="Type a secure message..." disabled>
+                                <button id="privateSendBtn" class="send-button" disabled>
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile Section -->
+            <section id="profile" class="content-section">
+                <div class="section-header">
+                    <h1>Your Profile</h1>
+                    <p>Customize your AI experience</p>
+                </div>
+                
+                <div class="profile-container">
+                    <div class="profile-card">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user-circle"></i>
+                            <button class="change-avatar-btn">
+                                <i class="fas fa-camera"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="profile-info">
+                            <div class="form-group">
+                                <label>Display Name:</label>
+                                <input type="text" id="displayName" value="Anonymous User" maxlength="50">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Bio:</label>
+                                <textarea id="userBio" placeholder="Tell us about yourself..." maxlength="200"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>AI Personality:</label>
+                                <select id="aiPersonality">
+                                    <option value="friendly">Friendly & Supportive</option>
+                                    <option value="professional">Professional & Formal</option>
+                                    <option value="witty">Witty & Humorous</option>
+                                    <option value="philosophical">Deep & Philosophical</option>
+                                </select>
+                            </div>
+                            
+                            <button id="saveProfileBtn" class="save-profile-btn">
+                                <i class="fas fa-save"></i>
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-card">
+                        <h3>Activity Stats</h3>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-value" id="totalMessages">0</div>
+                                <div class="stat-label">Messages Sent</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="totalMatches">0</div>
+                                <div class="stat-label">Matches Found</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="totalRooms">0</div>
+                                <div class="stat-label">Rooms Created</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="timeSpent">0h</div>
+                                <div class="stat-label">Time Spent</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal for Room Creation -->
+    <div id="createRoomModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create Private Room</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Room Name:</label>
+                    <input type="text" id="roomName" placeholder="Enter room name..." maxlength="50">
+                </div>
+                <div class="form-group">
+                    <label>Room Type:</label>
+                    <select id="roomType">
+                        <option value="private">Private (Invite Only)</option>
+                        <option value="public">Public (Anyone can join)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Room Description:</label>
+                    <textarea id="roomDescription" placeholder="Describe your room..." maxlength="200"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelRoomBtn" class="cancel-btn">Cancel</button>
+                <button id="confirmCreateRoomBtn" class="confirm-btn">Create Room</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner">
+            <i class="fas fa-robot"></i>
+            <div class="loading-text">Processing...</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
