@@ -1,0 +1,75 @@
+{
+    "name": "AI Companion",
+    "short_name": "AI Companion",
+    "description": "A mobile-friendly AI companion app with customizable characters",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#6366f1",
+    "theme_color": "#6366f1",
+    "orientation": "portrait-primary",
+    "categories": ["social", "entertainment", "productivity"],
+    "lang": "en-US",
+    "icons": [
+        {
+            "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' fill='%236366f1' rx='32'/><text x='96' y='140' font-size='100' text-anchor='middle' fill='white'>🤖</text></svg>",
+            "sizes": "192x192",
+            "type": "image/svg+xml",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' fill='%236366f1' rx='96'/><text x='256' y='360' font-size='280' text-anchor='middle' fill='white'>🤖</text></svg>",
+            "sizes": "512x512",
+            "type": "image/svg+xml",
+            "purpose": "any maskable"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Chat with Girlfriend",
+            "short_name": "Girlfriend",
+            "description": "Start chatting with your AI girlfriend",
+            "url": "/?character=girlfriend",
+            "icons": [
+                {
+                    "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><circle cx='48' cy='48' r='48' fill='%23ec4899'/><text x='48' y='64' font-size='48' text-anchor='middle'>💕</text></svg>",
+                    "sizes": "96x96",
+                    "type": "image/svg+xml"
+                }
+            ]
+        },
+        {
+            "name": "Chat with Teacher",
+            "short_name": "Teacher",
+            "description": "Start learning with your AI teacher",
+            "url": "/?character=teacher",
+            "icons": [
+                {
+                    "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><circle cx='48' cy='48' r='48' fill='%23059669'/><text x='48' y='64' font-size='48' text-anchor='middle'>📚</text></svg>",
+                    "sizes": "96x96",
+                    "type": "image/svg+xml"
+                }
+            ]
+        },
+        {
+            "name": "Chat with Partner",
+            "short_name": "Partner",
+            "description": "Collaborate with your AI partner",
+            "url": "/?character=partner",
+            "icons": [
+                {
+                    "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><circle cx='48' cy='48' r='48' fill='%237c3aed'/><text x='48' y='64' font-size='48' text-anchor='middle'>🤝</text></svg>",
+                    "sizes": "96x96",
+                    "type": "image/svg+xml"
+                }
+            ]
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 360 640'><rect width='360' height='640' fill='%236366f1'/><rect x='20' y='100' width='320' height='440' fill='white' rx='20'/><text x='180' y='50' font-size='24' text-anchor='middle' fill='white'>AI Companion</text></svg>",
+            "sizes": "360x640",
+            "type": "image/svg+xml",
+            "form_factor": "narrow"
+        }
+    ]
+}
