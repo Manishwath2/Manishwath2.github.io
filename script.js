@@ -78,68 +78,106 @@ class AICompanionApp {
     }
     
     bindEvents() {
-        // Character selection
+        // Character selection with improved mobile support
         document.querySelectorAll('.character-card').forEach(card => {
-            card.addEventListener('click', (e) => {
+            // Add both click and touch events for better mobile compatibility
+            const handleCharacterSelect = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 const character = e.currentTarget.dataset.character;
-                this.selectCharacter(character);
-            });
+                if (character) {
+                    console.log('Character selected:', character); // Debug log
+                    this.selectCharacter(character);
+                }
+            };
+            
+            // Use touchend for mobile and click for desktop/mouse
+            card.addEventListener('touchend', handleCharacterSelect, { passive: false });
+            card.addEventListener('click', handleCharacterSelect);
+            
+            // Add visual feedback for touch
+            card.addEventListener('touchstart', (e) => {
+                e.currentTarget.style.transform = 'scale(0.98)';
+            }, { passive: true });
+            
+            card.addEventListener('touchend', (e) => {
+                setTimeout(() => {
+                    e.currentTarget.style.transform = '';
+                }, 150);
+            }, { passive: true });
         });
         
-        // Menu functionality
-        document.getElementById('menuBtn').addEventListener('click', () => {
+        // Menu functionality with improved mobile support
+        const menuBtn = document.getElementById('menuBtn');
+        const addMobileButtonSupport = (button, callback) => {
+            if (button) {
+                const handleInteraction = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    callback();
+                };
+                button.addEventListener('touchend', handleInteraction, { passive: false });
+                button.addEventListener('click', handleInteraction);
+            }
+        };
+        
+        addMobileButtonSupport(menuBtn, () => {
             this.toggleSideMenu(true);
         });
         
-        document.getElementById('closeMenuBtn').addEventListener('click', () => {
+        addMobileButtonSupport(document.getElementById('closeMenuBtn'), () => {
             this.toggleSideMenu(false);
         });
         
-        document.getElementById('menuOverlay').addEventListener('click', () => {
+        addMobileButtonSupport(document.getElementById('menuOverlay'), () => {
             this.toggleSideMenu(false);
         });
         
         // Settings
-        document.getElementById('settingsBtn').addEventListener('click', () => {
+        addMobileButtonSupport(document.getElementById('settingsBtn'), () => {
             this.showSettings();
         });
         
         // Customization panel
-        document.getElementById('customizeBtn').addEventListener('click', () => {
+        addMobileButtonSupport(document.getElementById('customizeBtn'), () => {
             this.toggleCustomizationPanel(true);
         });
         
-        document.getElementById('closePanelBtn').addEventListener('click', () => {
+        addMobileButtonSupport(document.getElementById('closePanelBtn'), () => {
             this.toggleCustomizationPanel(false);
         });
         
-        document.getElementById('saveCustomizationBtn').addEventListener('click', () => {
+        addMobileButtonSupport(document.getElementById('saveCustomizationBtn'), () => {
             this.saveCustomization();
         });
         
-        // Chat functionality
-        document.getElementById('chatInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                this.sendMessage();
-            }
-        });
+        // Chat functionality with mobile support
+        const chatInput = document.getElementById('chatInput');
+        if (chatInput) {
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    this.sendMessage();
+                }
+            });
+        }
         
-        document.getElementById('sendBtn').addEventListener('click', () => {
+        addMobileButtonSupport(document.getElementById('sendBtn'), () => {
             this.sendMessage();
         });
         
         // Menu actions
-        document.getElementById('changeCharacterBtn').addEventListener('click', () => {
+        addMobileButtonSupport(document.getElementById('changeCharacterBtn'), () => {
             this.showCharacterSelection();
             this.toggleSideMenu(false);
         });
         
-        document.getElementById('clearChatBtn').addEventListener('click', () => {
+        addMobileButtonSupport(document.getElementById('clearChatBtn'), () => {
             this.clearChat();
             this.toggleSideMenu(false);
         });
         
-        document.getElementById('aboutBtn').addEventListener('click', () => {
+        addMobileButtonSupport(document.getElementById('aboutBtn'), () => {
             this.showAbout();
             this.toggleSideMenu(false);
         });
@@ -205,8 +243,14 @@ class AICompanionApp {
     }
     
     selectCharacter(characterType) {
+        console.log('selectCharacter called with:', characterType); // Debug log
         this.currentCharacter = characterType;
         const character = this.characterData[characterType];
+        
+        if (!character) {
+            console.error('Character not found:', characterType);
+            return;
+        }
         
         // Update UI
         document.getElementById('currentCharacterName').textContent = character.name;
@@ -218,6 +262,7 @@ class AICompanionApp {
         this.loadCharacterCustomization(characterType);
         
         // Show chat screen
+        console.log('Showing chat screen...'); // Debug log
         this.showScreen('chatScreen');
         
         // Save selection
@@ -227,6 +272,8 @@ class AICompanionApp {
         setTimeout(() => {
             this.addAIMessage(this.getRandomResponse());
         }, 1000);
+        
+        console.log('Character selection completed'); // Debug log
     }
     
     showCharacterSelection() {
@@ -577,14 +624,13 @@ const typingIndicatorCSS = `
 }
 
 /* Enhanced touch interactions */
-.character-card {
+.character-card, .send-btn, .select-character-btn, .menu-item, .menu-btn, .settings-btn {
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
-}
-
-.send-btn, .select-character-btn, .menu-item {
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 /* Improved mobile scrolling */
@@ -611,7 +657,103 @@ body.loaded .app-container {
     opacity: 1;
     transform: translateY(0);
 }
+
+/* Mobile debug panel - only visible in development */
+.debug-panel {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-family: monospace;
+    z-index: 9999;
+    max-width: 200px;
+    display: none;
+}
+
+.debug-panel.show {
+    display: block;
+}
+
+/* Better mobile viewport handling */
+@media screen and (max-width: 768px) {
+    .app-container {
+        min-height: 100dvh; /* Use dynamic viewport height on modern browsers */
+        min-height: 100vh; /* Fallback */
+    }
+    
+    .chat-messages {
+        max-height: calc(100dvh - 200px);
+        max-height: calc(100vh - 200px); /* Fallback */
+    }
+}
 `;
+
+// Mobile debugging utilities
+const MobileDebug = {
+    isEnabled: false,
+    panel: null,
+    
+    init() {
+        // Enable debug in development or with debug=1 in URL
+        const urlParams = new URLSearchParams(window.location.search);
+        this.isEnabled = urlParams.get('debug') === '1' || window.location.hostname === 'localhost';
+        
+        if (this.isEnabled) {
+            this.createPanel();
+            this.startLogging();
+        }
+    },
+    
+    createPanel() {
+        this.panel = document.createElement('div');
+        this.panel.className = 'debug-panel show';
+        this.panel.innerHTML = '<strong>Mobile Debug</strong><br>';
+        document.body.appendChild(this.panel);
+    },
+    
+    log(message) {
+        if (this.isEnabled && this.panel) {
+            console.log('[Mobile Debug]', message);
+            this.panel.innerHTML += message + '<br>';
+            // Keep only last 5 messages
+            const messages = this.panel.innerHTML.split('<br>');
+            if (messages.length > 7) {
+                this.panel.innerHTML = messages.slice(0, 1).join('<br>') + '<br>' + 
+                                     messages.slice(-5).join('<br>');
+            }
+        }
+    },
+    
+    startLogging() {
+        this.log(`Screen: ${window.innerWidth}x${window.innerHeight}`);
+        this.log(`Touch: ${'ontouchstart' in window ? 'YES' : 'NO'}`);
+        this.log(`Mobile: ${/Mobi|Android/i.test(navigator.userAgent) ? 'YES' : 'NO'}`);
+        
+        // Log touch events on character cards
+        document.addEventListener('touchstart', (e) => {
+            if (e.target.closest('.character-card')) {
+                this.log('Touch start on card');
+            }
+        });
+        
+        document.addEventListener('touchend', (e) => {
+            if (e.target.closest('.character-card')) {
+                this.log('Touch end on card');
+            }
+        });
+        
+        // Log clicks
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.character-card')) {
+                this.log('Click on card');
+            }
+        });
+    }
+};
 
 // Add enhanced CSS
 const styleSheet = document.createElement('style');
@@ -620,6 +762,10 @@ document.head.appendChild(styleSheet);
 
 // Initialize app when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize mobile debugging
+    MobileDebug.init();
+    
+    // Initialize main app
     new AICompanionApp();
 });
 

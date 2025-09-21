@@ -117,13 +117,29 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
+    /* Better mobile support */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
 }
 
-.menu-btn:hover,
-.settings-btn:hover {
-    background-color: var(--surface-alt);
+/* Desktop hover effects */
+@media (hover: hover) and (pointer: fine) {
+    .menu-btn:hover,
+    .settings-btn:hover {
+        background-color: var(--surface-alt);
+    }
+}
+
+/* Mobile touch effects */
+@media (hover: none) and (pointer: coarse) {
+    .menu-btn:active,
+    .settings-btn:active {
+        background-color: var(--surface-alt);
+        transform: scale(0.95);
+    }
 }
 
 .menu-icon {
@@ -218,12 +234,33 @@ body {
     text-align: center;
     transition: all var(--transition-normal);
     cursor: pointer;
+    /* Better touch targets for mobile */
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Remove tap highlight */
+    -webkit-tap-highlight-color: transparent;
+    /* Ensure touch events work */
+    touch-action: manipulation;
+    user-select: none;
 }
 
-.character-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-xl);
-    background: rgba(255, 255, 255, 0.15);
+/* Desktop hover effects */
+@media (hover: hover) and (pointer: fine) {
+    .character-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-xl);
+        background: rgba(255, 255, 255, 0.15);
+    }
+}
+
+/* Mobile touch effects */
+@media (hover: none) and (pointer: coarse) {
+    .character-card:active {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(0.98);
+    }
 }
 
 .character-avatar {
@@ -273,18 +310,34 @@ body {
     background: white;
     color: var(--primary-color);
     border: none;
-    padding: var(--spacing-sm) var(--spacing-xl);
+    padding: var(--spacing-md) var(--spacing-xl);
     border-radius: var(--radius-lg);
     font-weight: 600;
     font-size: 1rem;
     cursor: pointer;
     transition: all var(--transition-fast);
     width: 100%;
+    /* Better mobile touch targets */
+    min-height: 48px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
 }
 
-.select-character-btn:hover {
-    background: var(--surface-alt);
-    transform: translateY(-1px);
+/* Desktop hover effects */
+@media (hover: hover) and (pointer: fine) {
+    .select-character-btn:hover {
+        background: var(--surface-alt);
+        transform: translateY(-1px);
+    }
+}
+
+/* Mobile touch effects */
+@media (hover: none) and (pointer: coarse) {
+    .select-character-btn:active {
+        background: var(--surface-alt);
+        transform: scale(0.98);
+    }
 }
 
 /* Chat Screen */
@@ -447,13 +500,28 @@ body {
     align-items: center;
     justify-content: center;
     color: white;
-    min-width: 44px;
-    height: 44px;
+    min-width: 48px;
+    height: 48px;
+    /* Better mobile support */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
 }
 
-.send-btn:hover {
-    background: var(--primary-dark);
-    transform: scale(1.05);
+/* Desktop hover effects */
+@media (hover: hover) and (pointer: fine) {
+    .send-btn:hover {
+        background: var(--primary-dark);
+        transform: scale(1.05);
+    }
+}
+
+/* Mobile touch effects */
+@media (hover: none) and (pointer: coarse) {
+    .send-btn:active {
+        background: var(--primary-dark);
+        transform: scale(0.95);
+    }
 }
 
 .send-btn:disabled {
@@ -716,11 +784,28 @@ body {
     color: var(--text-primary);
     font-weight: 500;
     transition: all var(--transition-fast);
+    /* Better mobile support */
+    min-height: 48px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
 }
 
-.menu-item:hover {
-    background: var(--surface-alt);
-    color: var(--primary-color);
+/* Desktop hover effects */
+@media (hover: hover) and (pointer: fine) {
+    .menu-item:hover {
+        background: var(--surface-alt);
+        color: var(--primary-color);
+    }
+}
+
+/* Mobile touch effects */
+@media (hover: none) and (pointer: coarse) {
+    .menu-item:active {
+        background: var(--surface-alt);
+        color: var(--primary-color);
+        transform: scale(0.98);
+    }
 }
 
 .menu-icon {
