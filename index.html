@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Weather Insights Pro - Real-time Weather & Travel Intelligence</title>
+    
+    <!-- Material UI CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/@mui/material@5.14.20/umd/material-ui.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- PWA Meta tags -->
+    <meta name="theme-color" content="#1976d2">
+    <meta name="description" content="Advanced weather application with real-time data, travel insights, and AI-powered predictions">
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Prevent zooming and scrolling -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="weather-icon-animated">🌤️</div>
+            <h2>Weather Insights Pro</h2>
+            <div class="loading-spinner"></div>
+            <p>Loading real-time data...</p>
+        </div>
+    </div>
+
+    <!-- Main Application Container -->
+    <div id="app" class="app-container" style="display: none;">
+        <!-- Top Navigation Bar -->
+        <header class="top-bar">
+            <div class="nav-content">
+                <div class="logo">
+                    <span class="material-icons">wb_sunny</span>
+                    <span class="logo-text">Weather Pro</span>
+                </div>
+                <div class="nav-actions">
+                    <button class="icon-btn" id="location-btn" title="Update Location">
+                        <span class="material-icons">my_location</span>
+                    </button>
+                    <button class="icon-btn" id="chat-btn" title="AI Assistant">
+                        <span class="material-icons">chat</span>
+                    </button>
+                    <button class="icon-btn" id="settings-btn" title="Settings">
+                        <span class="material-icons">settings</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Current Weather Card -->
+            <div class="weather-card main-weather">
+                <div class="current-weather">
+                    <div class="weather-info">
+                        <div class="location-info">
+                            <h1 id="current-location">Loading...</h1>
+                            <p id="current-time"></p>
+                        </div>
+                        <div class="weather-display">
+                            <div class="temperature">
+                                <span id="current-temp">--</span>
+                                <span class="temp-unit">°C</span>
+                            </div>
+                            <div class="weather-icon">
+                                <span id="weather-emoji">🌤️</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="weather-details">
+                        <div class="detail-item">
+                            <span class="material-icons">air</span>
+                            <span>Wind: <span id="wind-speed">--</span> km/h</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="material-icons">water_drop</span>
+                            <span>Humidity: <span id="humidity">--%</span></span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="material-icons">visibility</span>
+                            <span>Visibility: <span id="visibility">-- km</span></span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="material-icons">speed</span>
+                            <span>Pressure: <span id="pressure">-- hPa</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Travel Safety Insights -->
+            <div class="weather-card travel-insights">
+                <h3><span class="material-icons">flight</span>Travel Safety Insights</h3>
+                <div id="travel-safety" class="safety-content">
+                    <div class="safety-indicator">
+                        <div class="safety-score" id="safety-score">
+                            <div class="score-circle">
+                                <span id="safety-percentage">--</span>
+                                <small>Safety Score</small>
+                            </div>
+                        </div>
+                        <div class="safety-details">
+                            <div class="safety-item">
+                                <span class="material-icons">flight_takeoff</span>
+                                <span id="flight-status">Analyzing...</span>
+                            </div>
+                            <div class="safety-item">
+                                <span class="material-icons">warning</span>
+                                <span id="weather-warnings">No warnings</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hourly Forecast -->
+            <div class="weather-card hourly-forecast">
+                <h3><span class="material-icons">schedule</span>24-Hour Forecast</h3>
+                <div class="forecast-scroll" id="hourly-forecast">
+                    <!-- Hourly items will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- 7-Day Forecast -->
+            <div class="weather-card weekly-forecast">
+                <h3><span class="material-icons">calendar_view_week</span>7-Day Forecast</h3>
+                <div id="weekly-forecast">
+                    <!-- Weekly items will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Weather Map -->
+            <div class="weather-card weather-map">
+                <h3><span class="material-icons">map</span>Weather Radar</h3>
+                <div class="map-container">
+                    <div id="weather-map" class="map-placeholder">
+                        <span class="material-icons">satellite_alt</span>
+                        <p>Interactive weather map loading...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Visualization -->
+            <div class="weather-card charts">
+                <h3><span class="material-icons">analytics</span>Weather Analytics</h3>
+                <div class="chart-tabs">
+                    <button class="chart-tab active" data-chart="temperature">Temperature</button>
+                    <button class="chart-tab" data-chart="precipitation">Precipitation</button>
+                    <button class="chart-tab" data-chart="wind">Wind</button>
+                </div>
+                <div class="chart-container">
+                    <canvas id="weather-chart"></canvas>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-section="weather">
+                <span class="material-icons">wb_sunny</span>
+                <span>Weather</span>
+            </button>
+            <button class="nav-item" data-section="travel">
+                <span class="material-icons">flight</span>
+                <span>Travel</span>
+            </button>
+            <button class="nav-item" data-section="map">
+                <span class="material-icons">map</span>
+                <span>Map</span>
+            </button>
+            <button class="nav-item" data-section="insights">
+                <span class="material-icons">analytics</span>
+                <span>Insights</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- AI Chatbot Modal -->
+    <div id="chat-modal" class="modal">
+        <div class="modal-content chat-container">
+            <div class="chat-header">
+                <h3><span class="material-icons">smart_toy</span>Weather AI Assistant</h3>
+                <button class="close-btn" id="close-chat">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="message bot-message">
+                    <span class="material-icons">smart_toy</span>
+                    <div class="message-content">
+                        <p>Hello! I'm your weather AI assistant. Ask me anything about weather, travel conditions, or get personalized recommendations!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chat-input" placeholder="Ask about weather, travel safety..." maxlength="500">
+                <button id="send-chat"><span class="material-icons">send</span></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><span class="material-icons">settings</span>Settings</h3>
+                <button class="close-btn" id="close-settings">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+            <div class="settings-content">
+                <div class="setting-item">
+                    <label>Temperature Unit</label>
+                    <select id="temp-unit">
+                        <option value="celsius">Celsius (°C)</option>
+                        <option value="fahrenheit">Fahrenheit (°F)</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label>Wind Speed Unit</label>
+                    <select id="wind-unit">
+                        <option value="kmh">km/h</option>
+                        <option value="mph">mph</option>
+                        <option value="ms">m/s</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label>Auto-refresh Interval</label>
+                    <select id="refresh-interval">
+                        <option value="300000">5 minutes</option>
+                        <option value="600000">10 minutes</option>
+                        <option value="1800000">30 minutes</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label>
+                        <input type="checkbox" id="notifications"> 
+                        Enable Weather Alerts
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
